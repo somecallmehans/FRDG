@@ -2,7 +2,6 @@ import axios from "axios"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import Constants from 'expo-constants';
 
-console.log(Constants.manifest.extra.BASE_URL);
 const TOKEN = "token"
 const SET_AUTH = "SET_AUTH"
 const BASE_URL = Constants.manifest.extra.BASE_URL;
@@ -22,11 +21,12 @@ export const me = () => async (dispatch) => {
   }
 }
 
-export const authenticate = (email, password, method) => async (dispatch) => {
+export const authenticate = (email, password, method, name) => async (dispatch) => {
   try {
     const res = await axios.post(`http://${BASE_URL}/auth/${method}`, {
       email,
       password,
+      name
     })
     AsyncStorage.setItem(TOKEN, res.data.token)
     dispatch(me())

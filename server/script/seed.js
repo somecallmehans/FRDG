@@ -21,7 +21,7 @@ async function seed() {
     await Foods.create({
       foodName: FoodData[i].foodName,
       expirationTime: FoodData[i].expirationTime,
-      dateAdded: FoodData[i].dataAdded
+      dateAdded: FoodData[i].dateAdded
     })
   }
 }
