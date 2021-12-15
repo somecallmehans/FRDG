@@ -24,10 +24,12 @@ const Login = (props) => {
 
   const onSubmit = async (data) => {
     const method = "login"
+    const name = null
     const res = await props.submitForm(
       data.email,
       data.password,
-      method
+      method,
+      name
     )
 
     if (res === 405) {
