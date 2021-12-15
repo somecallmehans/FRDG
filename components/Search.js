@@ -1,19 +1,16 @@
 import { SearchBar } from 'react-native-elements';
 import React, { useState, useEffect } from 'react';
 import { connect } from "react-redux"
-import { View, Text, FlatList, StyleSheet } from "react-native"
+import { View, Text, FlatList, StyleSheet, TouchableOpacity } from "react-native"
+import { Ionicons } from '@expo/vector-icons';
 
-import { fetchFoods } from '../store/food';
-import { useLinkProps } from '@react-navigation/native';
+import { addToFridge, fetchFoods } from '../store/food';
 
 const Search = (props) => {
   const [data, setData] = useState([]);
   const [foods, setFoods] = useState([]);
   const [query, setQuery] = useState("");
-  //const [loading, setLoading] = useState(false);
-  //const [error, setError] = useState(null);
 
-  //console.log("PROPS IN SEARCH:", props.homeFoods.length);
   useEffect(() => {
     setFoods(props.homeFoods);
   } , []);
@@ -42,40 +39,44 @@ const Search = (props) => {
       {
         query.length > 0 ? (
           <FlatList
-        data={data}
-        renderItem={
-          ({item}) =>
-          <Text style={styles.List}>{item.foodName}</Text>
-        }
-      />
+            data={data}
+            renderItem={
+              ({item}) =>
+              <View style={styles.list}>
+                <Text style={styles.listText}>{item.foodName}
+                  <TouchableOpacity
+                    onPress={() => props.addToFridge(item.id, item.expirationTime)}>
+                    <Ionicons name="add-circle-outline" size={24} color="black" />
+                  </TouchableOpacity>
+                </Text>
+              </View>
+              }
+          />
         ) : <></>
       }
-
     </View>
   )
 }
-/*
-const mapState = (state) => {
-  return {
-    foods: state.foods
-  }
-}
-
-const mapDispatch = (dispatch) => {
-  return {
-    getFoods: () => dispatch(fetchFoods())
-  }
-} */
 
 const styles = StyleSheet.create({
-  List: {
+  list: {
     paddingLeft: 15,
     marginTop: 15,
     paddingBottom: 15,
     fontSize: 20,
-    borderBottomColor: '#26a69a',
+    backgroundColor: '#FAF9F6',
+    borderBottomColor: '#808080',
     borderBottomWidth: 1
+  },
+  listText: {
+    fontSize: 24
   }
 })
 
-export default /* connect(mapState, mapDispatch) */(Search);
+const mapDispatch = (dispatch) => {
+  return {
+    addToFridge: (foodId, expirationTime) => dispatch(addToFridge(foodId, expirationTime))
+  }
+}
+
+export default connect(null, mapDispatch)(Search);

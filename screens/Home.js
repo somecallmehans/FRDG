@@ -22,12 +22,10 @@ const Home = (props) => {
   }, []);
 
   return (
-    <SafeAreaView>
       <View>
         <Search homeFoods={props.foods.foods}/>
         <Text>WELCOME HOME!</Text>
       </View>
-    </SafeAreaView>
   )
 }
 
