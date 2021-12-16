@@ -12,6 +12,7 @@ import {
 import { StatusBar } from "expo-status-bar"
 import { useController, useForm } from "react-hook-form"
 import { useNavigation } from "@react-navigation/native"
+import { MaterialIcons } from '@expo/vector-icons';
 import { connect } from "react-redux"
 import { authenticate } from "../store"
 
@@ -63,7 +64,7 @@ const Login = (props) => {
           style={styles.button}
           onPress={() => navigation.navigate("Signup")}
         >
-          <Text style={styles.buttonText}>Sign Up</Text>
+          <Text style={styles.buttonText}>Sign Up {'>'}</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -77,15 +78,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  formContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
   backgroundImage: {
     flex: 0.6,
     width: "100%",
     height: "100%",
     backgroundColor: "#288cd7",
-  },
-  formContainer: {
-    alignItems: "center",
-    justifyContent: "center",
   },
   button: {
     backgroundColor: "#288cd7",
@@ -97,12 +98,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 20,
     textAlign: "center",
-  },
-  buttonSignUp: {
-    backgroundColor: "#f3bae5",
-    padding: 10,
-    marginTop: 20,
-    width: "30%",
   },
   title: {
     color: "#87ceeb",
