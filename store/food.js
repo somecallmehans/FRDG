@@ -5,12 +5,20 @@ const BASE_URL = Constants.manifest.extra.BASE_URL;
 
 const TOKEN = "token"
 const SET_FOODS = "SET_FOODS";
+const SET_FRIDGE = "SET_FRIDGE";
 const ADD_TO_FRIDGE = "ADD_TO_FRIDGE";
 
 export const setFoods = (foods) => {
   return {
     type: SET_FOODS,
     foods
+  }
+}
+
+export const setFridge = (fridgeItems) => {
+  return {
+    type: SET_FRIDGE,
+    fridgeItems
   }
 }
 
@@ -21,10 +29,28 @@ export const _addToFridge = (food) => {
   }
 }
 
+export const fetchFridge = () => {
+  return async (dispatch) => {
+    try {
+      console.log("Got this far");
+      const token = await AsyncStorage.getItem(TOKEN);
+      const res = await axios.get(`http://192.168.0.6:8080/api/food/userFridge`, {
+        headers: {
+          authorization: token
+        }
+      })
+      dispatch(setFridge(res.data));
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
 export const addToFridge = (foodId, expirationTime) => async (dispatch) => {
   try {
     const token = await AsyncStorage.getItem(TOKEN);
-    const res = await axios.post(`http://${BASE_URL}/api/food/${foodId}`, {
+    const res = await axios.post(`http://192.168.0.6:8080/api/food/${foodId}`, {
       expirationTime: expirationTime
     }, {
       headers: {
@@ -39,8 +65,13 @@ export const addToFridge = (foodId, expirationTime) => async (dispatch) => {
 
 export const fetchFoods = () => {
   return async (dispatch) => {
-    const res = await axios.get(`http://${BASE_URL}/api/food`)
-    dispatch(setFoods(res.data));
+    try {
+      const res = await axios.get(`http://192.168.0.6:8080/api/food`)
+      dispatch(setFoods(res.data));
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 

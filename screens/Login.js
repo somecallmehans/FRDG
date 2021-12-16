@@ -40,6 +40,7 @@ const Login = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.formContainer}>
+        <Text style={styles.title}>FRDG</Text>
         <InputForm
           control={control}
           name="email"
@@ -103,6 +104,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: "30%",
   },
+  title: {
+    color: "#87ceeb",
+    fontSize: 32,
+    marginBottom: 20
+  }
 })
 
 const mapState = (state) => {
