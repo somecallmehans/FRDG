@@ -6,28 +6,39 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
+  FlatList,
 } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { connect } from "react-redux"
 import { useEffect } from "react"
+import { fetchFridge } from '../store/food';
 
-import Search from "../components/Search"
-import FridgeDisplay from "../components/FridgeDisplay"
+const fridgeDisplay = (props) => {
+  const [fridge, setFridge] = useState([]);
 
-const Home = () => {
+  useEffect(async() => {
+    let userFridge = await props.getUserFridge();
+    setFridge(userFridge);
+  }, [])
 
   return (
     <View>
-      <Search />
-      <FridgeDisplay />
+      <FlatList
+        data={fridge}
+        renderItem={
+          ({item}) =>
+            <View>
+              <Text>I am an item!</Text>
+            </View>
+        }
+      />
     </View>
   )
 }
 
-/* const mapState = (state) => {
+const mapState = (state) => {
   return {
-    auth: state.auth,
     fridge: state.foods.userFridge
   }
 }
@@ -36,6 +47,6 @@ const mapDispatch = (dispatch) => {
   return {
     getUserFridge: () => dispatch(fetchFridge())
   }
-} */
+}
 
-export default /* connect(mapState, mapDispatch) */Home
+export default connect(mapState, mapDispatch)(fridgeDisplay)
