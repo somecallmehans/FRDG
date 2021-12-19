@@ -35,14 +35,12 @@ const Home = (props) => {
 const mapState = (state) => {
   return {
     auth: state.auth,
-    foods: state.foods,
     fridge: state.foods.userFridge
   }
 }
 
 const mapDispatch = (dispatch) => {
   return {
-    getFoods: () => dispatch(fetchFoods()),
     getUserFridge: () => dispatch(fetchFridge())
   }
 }

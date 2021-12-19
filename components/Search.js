@@ -11,8 +11,10 @@ const Search = (props) => {
   const [foods, setFoods] = useState([]);
   const [query, setQuery] = useState("");
 
-  useEffect(() => {
-    setFoods(props.homeFoods);
+  useEffect(async () => {
+    let searchFoods = await props.getFoods();
+    setData(searchFoods);
+    setFoods(searchFoods);
   } , []);
 
   const searchFilterFunction = (text) => {
@@ -35,7 +37,8 @@ const Search = (props) => {
         autoCorrect={false}
         placeholder="Search For Food"
         value={query}
-      />
+      >
+      </SearchBar>
       {
         query.length > 0 ? (
           <FlatList
@@ -73,10 +76,17 @@ const styles = StyleSheet.create({
   }
 })
 
+const mapState = (state) => {
+  return {
+    foods: state.foods
+  }
+}
+
 const mapDispatch = (dispatch) => {
   return {
+    getFoods: () => dispatch(fetchFoods()),
     addToFridge: (foodId, expirationTime) => dispatch(addToFridge(foodId, expirationTime))
   }
 }
 
-export default connect(null, mapDispatch)(Search);
+export default connect(mapState, mapDispatch)(Search);

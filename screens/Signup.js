@@ -27,8 +27,6 @@ const Signup = (props) => {
 
     if (resStatus === 200) {
       navigation.navigate("Home")
-    } else {
-      Alert.alert("Error!")
     }
   }
 
