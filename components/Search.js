@@ -50,7 +50,7 @@ const Search = (props) => {
               <View style={styles.list}>
                 <Text style={styles.listText}>{item.foodName}
                   <TouchableOpacity
-                    onPress={() => props.addToFridge(item.id, item.expirationTime)}>
+                    onPress={() => props.addToFridge(item.id, item.expirationTime, item.foodName)}>
                     <Ionicons name="add-circle-outline" size={24} color="black" />
                   </TouchableOpacity>
                 </Text>
@@ -87,7 +87,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     getFoods: () => dispatch(fetchFoods()),
-    addToFridge: (foodId, expirationTime) => dispatch(addToFridge(foodId, expirationTime))
+    addToFridge: (foodId, expirationTime, foodName) => dispatch(addToFridge(foodId, expirationTime, foodName))
   }
 }
 

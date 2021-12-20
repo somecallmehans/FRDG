@@ -15,22 +15,24 @@ router.get("/", async (req, res, next) => {
 
 router.get("/userFridge", async (req, res, next) => {
   try {
-    console.log("in the route");
     const user = await User.findByToken(req.headers);
     let fridgeIds = await User_Food.findAll({
-      attributes: ['foodId'],
+      attributes: ['foodId', 'dateExpires', 'addedFoodName'],
       where: {
         userId: user.id
       }
-    }).then((item) => item.map(x => x.foodId));
+    })/* .then((item) => item.map(x => x.foodId)); */
+    console.log("IDS: ", fridgeIds);
+
+/*
     let userFridge = await fridgeIds.map(async (x) => await Food.findOne({
       where: {
         id: x
       }
     }))
-    userFridge = await Promise.all(userFridge);
-    //console.log("User Fridge: ", userFridge)
-    res.json(userFridge);
+    userFridge = await Promise.all(userFridge); */
+    //userFridge = userFridge.map(x => x.foodId);
+    //res.json(userFridge);
   } catch (error) {
     next(error);
   }
@@ -41,11 +43,13 @@ router.post("/:foodId", async (req, res, next) => {
     const dateAdded = new Date();
     const user = await User.findByToken(req.headers);
     const expirationTime = req.body.expirationTime;
+    const foodName = req.body.foodName;
     dateAdded.setDate(dateAdded.getDate() + expirationTime)
     //console.log(Object.keys(user.__proto__));
     const data = await user.addFood(req.params.foodId, {
       through: {
-        dateExpires: dateAdded
+        dateExpires: dateAdded,
+        addedFoodName: foodName
       }
     });
     //res.send(data)

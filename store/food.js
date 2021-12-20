@@ -47,11 +47,12 @@ export const fetchFridge = () => {
   }
 }
 
-export const addToFridge = (foodId, expirationTime) => async (dispatch) => {
+export const addToFridge = (foodId, expirationTime, foodName) => async (dispatch) => {
   try {
     const token = await AsyncStorage.getItem(TOKEN);
     const res = await axios.post(`http://${BASE_URL}/api/food/${foodId}`, {
-      expirationTime: expirationTime
+      expirationTime: expirationTime,
+      foodName: foodName
     }, {
       headers: {
         authorization: token
