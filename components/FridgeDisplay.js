@@ -19,20 +19,29 @@ const fridgeDisplay = (props) => {
 
   useEffect(async() => {
     let userFridge = await props.getUserFridge();
-    setFridge(userFridge);
+    if(userFridge !== undefined){
+      setFridge(userFridge);
+    }
   }, [])
 
   return (
     <View>
-      <FlatList
-        data={fridge}
-        renderItem={
-          ({item}) =>
-            <View>
-              <Text>I am an item!</Text>
-            </View>
-        }
-      />
+      {
+        fridge.length > 0 ? (
+          <FlatList
+            data={fridge}
+            renderItem={
+              ({item}) =>
+                <View>
+                  <Text>I am an item!</Text>
+                </View>
+            }
+            keyExtractor={(item, index) => index.toString()}
+          />
+        ) : (
+          <Text>Add items to fridge to begin!</Text>
+        )
+      }
     </View>
   )
 }

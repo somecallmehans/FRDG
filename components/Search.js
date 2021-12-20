@@ -12,7 +12,9 @@ const Search = (props) => {
   const [query, setQuery] = useState("");
 
   useEffect(async () => {
+    console.log("SEARCH HAS MOUNTED!");
     let searchFoods = await props.getFoods();
+    console.log(searchFoods.length);
     setData(searchFoods);
     setFoods(searchFoods);
   } , []);

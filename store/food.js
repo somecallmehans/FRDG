@@ -34,7 +34,7 @@ export const fetchFridge = () => {
     try {
       console.log("Got this far");
       const token = await AsyncStorage.getItem(TOKEN);
-      const res = await axios.get(`http://192.168.1.181:8080/api/food/userFridge`, {
+      const res = await axios.get(`http://${BASE_URL}/api/food/userFridge`, {
         headers: {
           authorization: token
         }
@@ -50,7 +50,7 @@ export const fetchFridge = () => {
 export const addToFridge = (foodId, expirationTime) => async (dispatch) => {
   try {
     const token = await AsyncStorage.getItem(TOKEN);
-    const res = await axios.post(`http://192.168.1.181:8080/api/food/${foodId}`, {
+    const res = await axios.post(`http://${BASE_URL}/api/food/${foodId}`, {
       expirationTime: expirationTime
     }, {
       headers: {
@@ -66,7 +66,7 @@ export const addToFridge = (foodId, expirationTime) => async (dispatch) => {
 export const fetchFoods = () => {
   return async (dispatch) => {
     try {
-      const res = await axios.get(`http://192.168.1.181:8080/api/food`)
+      const res = await axios.get(`http://${BASE_URL}/api/food`)
       dispatch(setFoods(res.data));
       return res.data;
     } catch (error) {
