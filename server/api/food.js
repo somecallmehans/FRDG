@@ -17,14 +17,19 @@ router.get("/userFridge", async (req, res, next) => {
   try {
     console.log("in the route");
     const user = await User.findByToken(req.headers);
-    let userFridge = await User_Food.findAll({
+    let fridgeIds = await User_Food.findAll({
       attributes: ['foodId'],
       where: {
         userId: user.id
       }
-    })
-    userFridge = userFridge.map(x => x.user_food);
-    console.log("User Fridge: ", userFridge)
+    }).then((item) => item.map(x => x.foodId));
+    let userFridge = await fridgeIds.map(async (x) => await Food.findOne({
+      where: {
+        id: x
+      }
+    }))
+    userFridge = await Promise.all(userFridge);
+    //console.log("User Fridge: ", userFridge)
     res.json(userFridge);
   } catch (error) {
     next(error);

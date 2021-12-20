@@ -33,7 +33,7 @@ const fridgeDisplay = (props) => {
             renderItem={
               ({item}) =>
                 <View>
-                  <Text>I am an item!</Text>
+                  <Text>{item.foodName}</Text>
                 </View>
             }
             keyExtractor={(item, index) => index.toString()}
