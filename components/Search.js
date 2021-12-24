@@ -49,7 +49,6 @@ const Search = (props) => {
                 <Text style={styles.listText}>{item.foodName}
                   <TouchableOpacity
                     onPress={() => {
-                      console.log("PRESSED");
                       props.addToFridge(item.id, item.expirationTime, item.foodName)
                     }
                     }>
