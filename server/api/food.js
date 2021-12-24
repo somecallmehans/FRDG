@@ -16,23 +16,13 @@ router.get("/", async (req, res, next) => {
 router.get("/userFridge", async (req, res, next) => {
   try {
     const user = await User.findByToken(req.headers);
-    let fridgeIds = await User_Food.findAll({
+    let userFridge = await User_Food.findAll({
       attributes: ['foodId', 'dateExpires', 'addedFoodName'],
       where: {
         userId: user.id
       }
-    })/* .then((item) => item.map(x => x.foodId)); */
-    console.log("IDS: ", fridgeIds);
-
-/*
-    let userFridge = await fridgeIds.map(async (x) => await Food.findOne({
-      where: {
-        id: x
-      }
-    }))
-    userFridge = await Promise.all(userFridge); */
-    //userFridge = userFridge.map(x => x.foodId);
-    //res.json(userFridge);
+    })
+    res.json(userFridge);
   } catch (error) {
     next(error);
   }
@@ -52,8 +42,7 @@ router.post("/:foodId", async (req, res, next) => {
         addedFoodName: foodName
       }
     });
-    //res.send(data)
-    res.status(201);
+    res.send(data[0])
   } catch (error) {
     next(error)
   }

@@ -4,7 +4,7 @@ import { connect } from "react-redux"
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from "react-native"
 import { Ionicons } from '@expo/vector-icons';
 
-import { addToFridge, fetchFoods } from '../store/food';
+import { addToFridge, fetchFoods, fetchFridge } from '../store/food';
 
 const Search = (props) => {
   const [data, setData] = useState([]);
@@ -12,9 +12,7 @@ const Search = (props) => {
   const [query, setQuery] = useState("");
 
   useEffect(async () => {
-    console.log("SEARCH HAS MOUNTED!");
     let searchFoods = await props.getFoods();
-    console.log(searchFoods.length);
     setData(searchFoods);
     setFoods(searchFoods);
   } , []);
@@ -50,7 +48,11 @@ const Search = (props) => {
               <View style={styles.list}>
                 <Text style={styles.listText}>{item.foodName}
                   <TouchableOpacity
-                    onPress={() => props.addToFridge(item.id, item.expirationTime, item.foodName)}>
+                    onPress={() => {
+                      console.log("PRESSED");
+                      props.addToFridge(item.id, item.expirationTime, item.foodName)
+                    }
+                    }>
                     <Ionicons name="add-circle-outline" size={24} color="black" />
                   </TouchableOpacity>
                 </Text>
@@ -80,14 +82,15 @@ const styles = StyleSheet.create({
 
 const mapState = (state) => {
   return {
-    foods: state.foods
+    foods: state.foods,
   }
 }
 
 const mapDispatch = (dispatch) => {
   return {
     getFoods: () => dispatch(fetchFoods()),
-    addToFridge: (foodId, expirationTime, foodName) => dispatch(addToFridge(foodId, expirationTime, foodName))
+    addToFridge: (foodId, expirationTime, foodName) => dispatch(addToFridge(foodId, expirationTime, foodName)),
+    getUserFridge: () => dispatch(fetchFridge())
   }
 }
 

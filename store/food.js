@@ -32,7 +32,6 @@ export const _addToFridge = (food) => {
 export const fetchFridge = () => {
   return async (dispatch) => {
     try {
-      console.log("Got this far");
       const token = await AsyncStorage.getItem(TOKEN);
       const res = await axios.get(`http://${BASE_URL}/api/food/userFridge`, {
         headers: {
@@ -92,6 +91,11 @@ export default function (state = initialState, action){
       return {
         ...state,
         userFridge: [...state.userFridge, action.food]
+      }
+    case SET_FRIDGE:
+      return {
+        ...state,
+        userFridge: action.fridgeItems
       }
     default:
       return state
