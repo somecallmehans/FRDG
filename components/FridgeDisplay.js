@@ -8,6 +8,9 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native"
+import {
+  ListItem
+} from "react-native-elements"
 import { useNavigation } from "@react-navigation/native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { connect } from "react-redux"
@@ -16,15 +19,23 @@ import { fetchFridge } from '../store/food';
 
 const fridgeDisplay = (props) => {
   const [fridge, setFridge] = useState([]);
+  const [day, setDay] = useState('');
 
-  useEffect(async() => {
-    let userFridge = await props.getUserFridge();
-    console.log("FRIDGE LENGTH: ", userFridge.length);
-    if(userFridge !== undefined){
-      setFridge(userFridge);
-    }
-    console.log("PROPS FRIDGE: ", props.fridge.length);
-  }, [JSON.stringify(fridge)])
+  useEffect(async () => {
+    await props.getUserFridge();
+    const today = new Date();
+    setDay(today);
+  }, [])
+
+  const setNumberOfDays = (expDate, today) => {
+    const date1 = new Date(expDate);
+    const date2 = new Date(today);
+    const oneDay = 1000 * 60 * 60 * 24;
+    const timeDiff = date1.getTime() - date2.getTime();
+
+    return Math.round(timeDiff/oneDay);
+  }
+
 
   return (
     <View>
@@ -35,9 +46,26 @@ const fridgeDisplay = (props) => {
             extraData={props.fridge}
             renderItem={
               ({item}) =>
-                <View>
-                  <Text>{item.addedFoodName}</Text>
-                </View>
+                {
+                  const expTime = setNumberOfDays(item.dateExpires, day)
+                  return (
+                    <ListItem.Swipeable
+                      bottomDivider
+                      rightContent={
+                        <Button
+                          title="Delete"
+                          icon={{name: 'delete', color: 'white'}}
+                        />
+                      }>
+                      <ListItem.Content>
+                        <ListItem.Title>{item.addedFoodName}</ListItem.Title>
+                      </ListItem.Content>
+                      <ListItem.Content right>
+                        <ListItem.Title right>{expTime > 0 ? expTime : "Expired!"}</ListItem.Title>
+                      </ListItem.Content>
+                    </ListItem.Swipeable>
+                  )
+                }
             }
             keyExtractor={(item, index) => index.toString()}
           />
