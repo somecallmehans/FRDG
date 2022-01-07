@@ -45,14 +45,16 @@ const Search = (props) => {
 
   return (
     <View>
-      <SearchBar
-        onChangeText={(text) => searchFilterFunction(text)}
-        lightTheme
-        round
-        autoCorrect={false}
-        placeholder="Search For Food"
-        value={query}
-      ></SearchBar>
+      <View>
+        <SearchBar
+          onChangeText={(text) => searchFilterFunction(text)}
+          lightTheme
+          round
+          autoCorrect={false}
+          placeholder="Search For Food"
+          value={query}
+        ></SearchBar>
+      </View>
       {query.length > 0 ? (
         <View style={styles.modalContainer}>
           <View style={styles.modal}>

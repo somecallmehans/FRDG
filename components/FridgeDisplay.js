@@ -38,12 +38,11 @@ const fridgeDisplay = (props) => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       {props.fridge.length > 0 ? (
         <FlatList
           data={props.fridge}
           extraData={props.fridge}
-          style={{ zIndex: 0 }}
           renderItem={({ item }) => {
             const expTime = setNumberOfDays(item.dateExpires, day);
             return (
@@ -70,7 +69,9 @@ const fridgeDisplay = (props) => {
           keyExtractor={(item, index) => index.toString()}
         />
       ) : (
-        <Text>Add items to fridge to begin!</Text>
+        <View>
+          <Text>Add items to fridge to begin!</Text>
+        </View>
       )}
     </View>
   );
