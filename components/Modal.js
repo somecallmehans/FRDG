@@ -31,7 +31,12 @@ const FormModal = (props) => {
   const onSubmit = async (data) => {
     const currentDate = new Date();
     console.log(data, currentDate, addFoodToFridge);
-    //const resStatus = await props.submitNewFood(data.foodName, data.expirationTime, currentDate, addFoodToFridge);
+    const resStatus = await props.submitNewFood(
+      data.foodName,
+      data.expirationTime,
+      currentDate,
+      addFoodToFridge
+    );
   };
 
   return (

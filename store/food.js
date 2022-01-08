@@ -63,6 +63,7 @@ export const addToFridge =
           },
         }
       );
+      console.log("Add food from search", res.data);
       dispatch(_addToFridge(res.data));
     } catch (error) {
       console.log(error);
@@ -85,13 +86,20 @@ export const addNewFood = (
   foodName,
   expirationTime,
   currentDate,
-  addToFridge
+  addFoodToFridge
 ) => {
   return async (dispatch) => {
     try {
-      const res = await axios.post(`http://${BASE_URL}/api/food`);
-      if (addToFridge) {
-        dispatch(_addToFridge(res.data));
+      const res = await axios.post(`http://${BASE_URL}/api/food`, {
+        foodName: foodName,
+        expirationTime: expirationTime,
+        dateAdded: currentDate,
+      });
+      console.log("Add food from modal", res.data);
+      if (addFoodToFridge) {
+        dispatch(
+          addToFridge(res.data.id, res.data.expirationTime, res.data.foodName)
+        );
       }
     } catch (error) {
       console.log(error);
