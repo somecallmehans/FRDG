@@ -10,9 +10,26 @@ import {
   Pressable,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
+//Add to db icon
+//<Entypo name="add-to-list" size={24} color="black" />
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+//add to fridge icon
+//<MaterialCommunityIcons name="fridge-outline" size={24} color="black" />
+import { useController, useForm } from "react-hook-form";
+
+import { InputForm } from "../components/InputField";
+import { Input } from "react-native-elements/dist/input/Input";
 
 const FormModal = (props) => {
+  const { control, handleSubmit } = useForm();
   const [show, setShow] = useState(false);
+
+  const onSubmit = async (data) => {
+    const currentDate = new Date();
+
+    //const resStatus = await props.submitNewFood(data.foodName, data.expirationTime, currentDate);
+  };
 
   return (
     <View style={styles.containerView}>
@@ -25,9 +42,36 @@ const FormModal = (props) => {
       >
         <View style={styles.containerView}>
           <View style={styles.modalView}>
-            <Text>I'm a modal</Text>
+            <Text>
+              Please enter in a food item and days until it expires (whole
+              numbers only!)
+            </Text>
+            <InputForm
+              control={control}
+              name="foodName"
+              placeholder="Food Name"
+              type="text"
+            />
+            <InputForm
+              control={control}
+              name="expirationTime"
+              placeholder="Expiration Time"
+              type="number"
+            />
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity style={styles.button}>
+                <Entypo name="add-to-list" size={48} color="black" />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.button}>
+                <MaterialCommunityIcons
+                  name="fridge-outline"
+                  size={48}
+                  color="black"
+                />
+              </TouchableOpacity>
+            </View>
             <Pressable onPress={() => setShow(!show)}>
-              <Text>X</Text>
+              <Ionicons name="close" size={36} color="black" />
             </Pressable>
           </View>
         </View>
@@ -63,6 +107,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    padding: 15,
+  },
+  button: {
+    marginHorizontal: 20,
   },
 });
 
