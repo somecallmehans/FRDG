@@ -44,7 +44,7 @@ const Search = (props) => {
         <View style={styles.searchContainer}>
           <SearchBar
             onChangeText={(text) => searchFilterFunction(text)}
-            containerStyle={{ width: "90%", backgroundColor: "white" }}
+            containerStyle={{ width: "88%", backgroundColor: "white" }}
             lightTheme
             round
             autoCorrect={false}

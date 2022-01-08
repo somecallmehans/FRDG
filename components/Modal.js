@@ -24,7 +24,7 @@ import { Input } from "react-native-elements/dist/input/Input";
 import { addNewFood } from "../store/food";
 
 const FormModal = (props) => {
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit, reset } = useForm();
   const [show, setShow] = useState(false);
   const [addFoodToFridge, setAddFoodToFridge] = useState(false);
 
@@ -37,6 +37,10 @@ const FormModal = (props) => {
       currentDate,
       addFoodToFridge
     );
+    reset({
+      foodName: "",
+      expirationTime: "",
+    });
   };
 
   return (
