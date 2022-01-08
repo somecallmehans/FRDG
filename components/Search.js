@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import FridgeDisplay from "./FridgeDisplay";
+import FormModal from "./Modal";
 
 import { addToFridge, fetchFoods, fetchFridge } from "../store/food";
 const windowHeight = Dimensions.get("window").height;
@@ -19,7 +20,6 @@ const Search = (props) => {
   const [data, setData] = useState([]);
   const [foods, setFoods] = useState([]);
   const [query, setQuery] = useState("");
-  const [show, setShow] = useState(false);
 
   useEffect(async () => {
     let searchFoods = await props.getFoods();
@@ -36,23 +36,24 @@ const Search = (props) => {
       return itemData.indexOf(textData) > -1;
     });
     setData(newData);
-    if (data.length > 0) {
-      setShow(true);
-    } else {
-      setShow(false);
-    }
   };
 
   return (
-    <View>
-      <SearchBar
-        onChangeText={(text) => searchFilterFunction(text)}
-        lightTheme
-        round
-        autoCorrect={false}
-        placeholder="Search For Food"
-        value={query}
-      ></SearchBar>
+    <View style={styles.container}>
+      <View>
+        <View style={styles.searchContainer}>
+          <SearchBar
+            onChangeText={(text) => searchFilterFunction(text)}
+            containerStyle={{ width: "90%", backgroundColor: "white" }}
+            lightTheme
+            round
+            autoCorrect={false}
+            placeholder="Search For Food"
+            value={query}
+          ></SearchBar>
+          <FormModal />
+        </View>
+      </View>
       {query.length > 0 ? (
         <View style={styles.modalContainer}>
           <View style={styles.modal}>
@@ -94,7 +95,7 @@ const Search = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    backgroundColor: "white",
   },
   modalContainer: {
     flex: 1,
@@ -102,6 +103,9 @@ const styles = StyleSheet.create({
   modal: {
     height: windowHeight,
     justifyContent: "center",
+  },
+  searchContainer: {
+    flexDirection: "row",
   },
 });
 
