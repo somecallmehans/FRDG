@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
+import { connect } from "react-redux";
 //Add to db icon
 //<Entypo name="add-to-list" size={24} color="black" />
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -20,15 +21,17 @@ import { useController, useForm } from "react-hook-form";
 
 import { InputForm } from "../components/InputField";
 import { Input } from "react-native-elements/dist/input/Input";
+import { addNewFood } from "../store/food";
 
 const FormModal = (props) => {
   const { control, handleSubmit } = useForm();
   const [show, setShow] = useState(false);
+  const [addFoodToFridge, setAddFoodToFridge] = useState(false);
 
   const onSubmit = async (data) => {
     const currentDate = new Date();
-
-    //const resStatus = await props.submitNewFood(data.foodName, data.expirationTime, currentDate);
+    console.log(data, currentDate, addFoodToFridge);
+    //const resStatus = await props.submitNewFood(data.foodName, data.expirationTime, currentDate, addFoodToFridge);
   };
 
   return (
@@ -59,10 +62,18 @@ const FormModal = (props) => {
               type="number"
             />
             <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.button}>
+              <TouchableOpacity
+                style={styles.button}
+                onPressIn={() => setAddFoodToFridge(false)}
+                onPress={handleSubmit(onSubmit)}
+              >
                 <Entypo name="add-to-list" size={48} color="black" />
               </TouchableOpacity>
-              <TouchableOpacity style={styles.button}>
+              <TouchableOpacity
+                style={styles.button}
+                onPressIn={() => setAddFoodToFridge(true)}
+                onPress={handleSubmit(onSubmit)}
+              >
                 <MaterialCommunityIcons
                   name="fridge-outline"
                   size={48}
@@ -117,4 +128,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FormModal;
+const mapDispatch = (dispatch) => {
+  return {
+    submitNewFood: (foodName, expirationTime, currentDate, addToFridge) =>
+      dispatch(addNewFood(foodName, expirationTime, currentDate, addToFridge)),
+  };
+};
+
+export default connect(null, mapDispatch)(FormModal);
