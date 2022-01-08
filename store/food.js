@@ -63,7 +63,6 @@ export const addToFridge =
           },
         }
       );
-      console.log("Add food from search", res.data);
       dispatch(_addToFridge(res.data));
     } catch (error) {
       console.log(error);
@@ -95,7 +94,6 @@ export const addNewFood = (
         expirationTime: expirationTime,
         dateAdded: currentDate,
       });
-      console.log("Add food from modal", res.data);
       if (addFoodToFridge) {
         dispatch(
           addToFridge(res.data.id, res.data.expirationTime, res.data.foodName)
