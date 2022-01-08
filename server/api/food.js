@@ -45,7 +45,7 @@ router.post("/:foodId", async (req, res, next) => {
     const expirationTime = req.body.expirationTime;
     const foodName = req.body.foodName;
     dateAdded.setDate(dateAdded.getDate() + expirationTime);
-    console.log(Object.keys(user.__proto__));
+    //console.log(Object.keys(user.__proto__));
     const data = await user.addFood(req.params.foodId, {
       through: {
         dateExpires: dateAdded,
@@ -61,12 +61,13 @@ router.post("/:foodId", async (req, res, next) => {
 router.put("/:foodId", async (req, res, next) => {
   try {
     const user = await User.findByToken(req.headers);
-    const data = await user.removeFood(req.params.foodId, {
+    await user.removeFood(req.params.foodId, {
       through: {
         userId: user.id,
+        foodId: req.params.foodId,
       },
     });
-    console.log(data);
+    const data = { foodId: parseInt(req.params.foodId) };
     res.send(data);
   } catch (error) {
     next(error);

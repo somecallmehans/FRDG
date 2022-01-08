@@ -7,7 +7,7 @@ const TOKEN = "token";
 const SET_FOODS = "SET_FOODS";
 const SET_FRIDGE = "SET_FRIDGE";
 const ADD_TO_FRIDGE = "ADD_TO_FRIDGE";
-const ADD_NEW_FOOD = "ADD_NEW_FOOD";
+const REMOVE_FROM_FRIDGE = "REMOVE_FROM_FRIDGE";
 
 export const setFoods = (foods) => {
   return {
@@ -27,6 +27,13 @@ export const _addToFridge = (food) => {
   return {
     type: ADD_TO_FRIDGE,
     food,
+  };
+};
+
+export const _removeFromFridge = (foodId) => {
+  return {
+    type: REMOVE_FROM_FRIDGE,
+    foodId,
   };
 };
 
@@ -105,6 +112,24 @@ export const addNewFood = (
   };
 };
 
+export const removeFromFridge = (foodId) => async (dispatch) => {
+  try {
+    const token = await AsyncStorage.getItem(TOKEN);
+    const res = await axios.put(
+      `http://${BASE_URL}/api/food/${foodId}`,
+      {},
+      {
+        headers: {
+          authorization: token,
+        },
+      }
+    );
+    dispatch(_removeFromFridge(res.data));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const initialState = {
   foods: [],
   userFridge: [],
@@ -126,6 +151,13 @@ export default function (state = initialState, action) {
       return {
         ...state,
         userFridge: action.fridgeItems,
+      };
+    case REMOVE_FROM_FRIDGE:
+      return {
+        ...state,
+        userFridge: state.userFridge.filter(
+          (item) => item.foodId !== action.foodId.foodId
+        ),
       };
     default:
       return state;
