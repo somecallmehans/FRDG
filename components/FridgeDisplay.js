@@ -14,7 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { connect } from "react-redux";
 import { useEffect } from "react";
-import { fetchFridge } from "../store/food";
+import { fetchFridge, removeFromFridge } from "../store/food";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -51,9 +51,11 @@ const fridgeDisplay = (props) => {
                 rightContent={
                   <Button
                     title="Delete"
-                    icon={{ name: "delete", color: "white" }}
+                    onPress={() => props.removeFromFridge(item.foodId)}
+                    icon={{ name: "delete", color: "red" }}
                   />
                 }
+                key={item.foodId}
               >
                 <ListItem.Content>
                   <ListItem.Title>{item.addedFoodName}</ListItem.Title>
@@ -92,6 +94,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     getUserFridge: () => dispatch(fetchFridge()),
+    removeFromFridge: (foodId) => dispatch(removeFromFridge(foodId)),
   };
 };
 

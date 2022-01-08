@@ -58,4 +58,19 @@ router.post("/:foodId", async (req, res, next) => {
   }
 });
 
+router.put("/:foodId", async (req, res, next) => {
+  try {
+    const user = await User.findByToken(req.headers);
+    await user.removeFood(req.params.foodId, {
+      through: {
+        userId: user.id,
+        foodId: req.params.foodId,
+      },
+    });
+    const data = { foodId: parseInt(req.params.foodId) };
+    res.send(data);
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = router;
