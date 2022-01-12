@@ -5,6 +5,7 @@ const BASE_URL = Constants.manifest.extra.BASE_URL;
 
 const TOKEN = "token";
 const SET_FOODS = "SET_FOODS";
+const ADD_FOOD = "ADD_FOOD";
 const SET_FRIDGE = "SET_FRIDGE";
 const ADD_TO_FRIDGE = "ADD_TO_FRIDGE";
 const REMOVE_FROM_FRIDGE = "REMOVE_FROM_FRIDGE";
@@ -13,6 +14,13 @@ export const setFoods = (foods) => {
   return {
     type: SET_FOODS,
     foods,
+  };
+};
+
+export const _addFood = (food) => {
+  return {
+    type: ADD_FOOD,
+    food,
   };
 };
 
@@ -106,6 +114,7 @@ export const addNewFood = (
           addToFridge(res.data.id, res.data.expirationTime, res.data.foodName)
         );
       }
+      dispatch(_addFood(res.data));
     } catch (error) {
       console.log(error);
     }
@@ -141,6 +150,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         foods: action.foods,
+      };
+    case ADD_FOOD:
+      return {
+        ...state,
+        foods: [...state.foods, action.food],
       };
     case ADD_TO_FRIDGE:
       return {

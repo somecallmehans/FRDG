@@ -23,6 +23,7 @@ const Search = (props) => {
 
   useEffect(async () => {
     let searchFoods = await props.getFoods();
+    //console.log(props.foods);
     setData(searchFoods);
     setFoods(searchFoods);
   }, []);
