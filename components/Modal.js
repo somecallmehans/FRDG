@@ -10,13 +10,9 @@ import {
   Pressable,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
-import { connect } from "react-redux";
-//Add to db icon
-//<Entypo name="add-to-list" size={24} color="black" />
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-//add to fridge icon
-//<MaterialCommunityIcons name="fridge-outline" size={24} color="black" />
+import { connect } from "react-redux";
+
 import { useController, useForm } from "react-hook-form";
 
 import { InputForm } from "../components/InputField";
@@ -30,7 +26,6 @@ const FormModal = (props) => {
 
   const onSubmit = async (data) => {
     const currentDate = new Date();
-    console.log(data, currentDate, addFoodToFridge);
     const resStatus = await props.submitNewFood(
       data.foodName,
       data.expirationTime,
@@ -54,7 +49,17 @@ const FormModal = (props) => {
       >
         <View style={styles.containerView}>
           <View style={styles.modalView}>
-            <Text>
+            <Pressable
+              onPress={() => setShow(!show)}
+              style={styles.closeButton}
+            >
+              <MaterialCommunityIcons
+                name="close-thick"
+                size={36}
+                color="black"
+              />
+            </Pressable>
+            <Text style={styles.modalText}>
               Please enter in a food item and days until it expires (whole
               numbers only!)
             </Text>
@@ -76,7 +81,11 @@ const FormModal = (props) => {
                 onPressIn={() => setAddFoodToFridge(false)}
                 onPress={handleSubmit(onSubmit)}
               >
-                <Entypo name="add-to-list" size={48} color="black" />
+                <MaterialCommunityIcons
+                  name="food-variant"
+                  size={48}
+                  color="black"
+                />
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.button}
@@ -90,9 +99,6 @@ const FormModal = (props) => {
                 />
               </TouchableOpacity>
             </View>
-            <Pressable onPress={() => setShow(!show)}>
-              <Ionicons name="close" size={36} color="black" />
-            </Pressable>
           </View>
         </View>
       </Modal>
@@ -134,6 +140,14 @@ const styles = StyleSheet.create({
   },
   button: {
     marginHorizontal: 20,
+  },
+  closeButton: {
+    position: "absolute",
+    right: 20,
+    top: 5,
+  },
+  modalText: {
+    margin: 15,
   },
 });
 

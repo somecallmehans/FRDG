@@ -2,14 +2,13 @@ import React, { useLayoutEffect, useState } from "react";
 import {
   View,
   Text,
-  Button,
   StyleSheet,
   Image,
   TouchableOpacity,
   FlatList,
   Dimensions,
 } from "react-native";
-import { ListItem } from "react-native-elements";
+import { ListItem, Button } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { connect } from "react-redux";
@@ -51,8 +50,9 @@ const fridgeDisplay = (props) => {
                 rightContent={
                   <Button
                     title="Delete"
+                    titleStyle={styles.buttonTitle}
                     onPress={() => props.removeFromFridge(item.foodId)}
-                    icon={{ name: "delete", color: "red" }}
+                    buttonStyle={styles.button}
                   />
                 }
                 key={item.foodId}
@@ -82,6 +82,13 @@ const fridgeDisplay = (props) => {
 const styles = StyleSheet.create({
   container: {
     height: windowHeight,
+  },
+  button: {
+    backgroundColor: "#FF0000",
+    minHeight: "100%",
+  },
+  buttonTitle: {
+    fontWeight: "700",
   },
 });
 
