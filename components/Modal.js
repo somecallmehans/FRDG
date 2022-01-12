@@ -17,15 +17,17 @@ import { useController, useForm } from "react-hook-form";
 
 import { InputForm } from "../components/InputField";
 import { Input } from "react-native-elements/dist/input/Input";
-import { addNewFood } from "../store/food";
+import { addNewFood, fetchFoods } from "../store/food";
 
 const FormModal = (props) => {
   const { control, handleSubmit, reset } = useForm();
   const [show, setShow] = useState(false);
   const [addFoodToFridge, setAddFoodToFridge] = useState(false);
+  const [clicks, setClicks] = useState(0);
 
   const onSubmit = async (data) => {
     const currentDate = new Date();
+
     const resStatus = await props.submitNewFood(
       data.foodName,
       data.expirationTime,
@@ -36,11 +38,20 @@ const FormModal = (props) => {
       foodName: "",
       expirationTime: "",
     });
+    setClicks(clicks + 1);
+  };
+
+  const closeActions = () => {
+    setShow(!show);
+    if (clicks > 0) {
+      setClicks(0);
+    }
   };
 
   return (
     <View style={styles.containerView}>
       <Modal
+        animationType="slide"
         transparent={true}
         visible={show}
         onRequestClose={() => {
@@ -50,7 +61,7 @@ const FormModal = (props) => {
         <View style={styles.containerView}>
           <View style={styles.modalView}>
             <Pressable
-              onPress={() => setShow(!show)}
+              onPress={() => closeActions()}
               style={styles.closeButton}
             >
               <MaterialCommunityIcons
@@ -76,21 +87,23 @@ const FormModal = (props) => {
               type="number"
             />
             <View style={styles.buttonContainer}>
-              <TouchableOpacity
+              {/*               <TouchableOpacity
                 style={styles.button}
                 onPressIn={() => setAddFoodToFridge(false)}
                 onPress={handleSubmit(onSubmit)}
+                onPressOut={() => setClicks(clicks + 1)}
               >
                 <MaterialCommunityIcons
                   name="food-variant"
                   size={48}
                   color="black"
                 />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               <TouchableOpacity
                 style={styles.button}
                 onPressIn={() => setAddFoodToFridge(true)}
                 onPress={handleSubmit(onSubmit)}
+                onPressOut={() => setClicks(clicks + 1)}
               >
                 <MaterialCommunityIcons
                   name="fridge-outline"
@@ -155,6 +168,7 @@ const mapDispatch = (dispatch) => {
   return {
     submitNewFood: (foodName, expirationTime, currentDate, addToFridge) =>
       dispatch(addNewFood(foodName, expirationTime, currentDate, addToFridge)),
+    getFoods: () => dispatch(fetchFoods()),
   };
 };
 
