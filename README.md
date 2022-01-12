@@ -2,7 +2,8 @@
 
 FRDG is a react-native app that allows users to add items to their 'fridge' and track how long until they expire.
 
-#Functionality
+# Functionality
+
 <strong> Sign Up </strong>
 <br>
 <img width="50%" height="50%" src="ReadMeGifs/FRDG_SignUp.gif">
