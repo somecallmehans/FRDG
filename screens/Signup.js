@@ -1,5 +1,5 @@
-import React from "react"
-import { useController, useForm } from "react-hook-form"
+import React from "react";
+import { useController, useForm } from "react-hook-form";
 import {
   StyleSheet,
   Text,
@@ -9,26 +9,30 @@ import {
   Button,
   Image,
   TouchableOpacity,
-} from "react-native"
-import { StatusBar } from "expo-status-bar"
-import { useNavigation } from "@react-navigation/native"
-import { connect } from "react-redux"
-import { InputForm } from "../components/InputField"
-import { authenticate } from "../store"
-
+} from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { useNavigation } from "@react-navigation/native";
+import { connect } from "react-redux";
+import { InputForm } from "../components/InputField";
+import { authenticate } from "../store";
 
 const Signup = (props) => {
-  const navigation = useNavigation()
-  const { control, handleSubmit } = useForm()
+  const navigation = useNavigation();
+  const { control, handleSubmit } = useForm();
 
   const onSubmit = async (data) => {
-    const method = "signup"
-    const resStatus = await props.submitForm(data.email, data.password, method, data.name)
+    const method = "signup";
+    const resStatus = await props.submitForm(
+      data.email,
+      data.password,
+      method,
+      data.name
+    );
 
     if (resStatus === 200) {
-      navigation.navigate("Home")
+      navigation.navigate("Home");
     }
-  }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -59,8 +63,8 @@ const Signup = (props) => {
         </TouchableOpacity>
       </View>
     </SafeAreaView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -89,14 +93,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#288cd7",
     padding: 10,
     margin: 10,
-    borderRadius: 10,
+    borderWidth: 2,
+    borderRadius: 5,
+    borderColor: "#87ceeb",
   },
   buttonText: {
-    color: "white",
-    fontSize: 20,
+    color: "#87ceeb",
+    fontSize: 24,
     textAlign: "center",
   },
-})
+});
 
 const mapSignup = (state) => {
   return {
@@ -104,14 +110,14 @@ const mapSignup = (state) => {
     displayName: "Sign Up",
     error: state.auth.error,
     auth: state.auth,
-  }
-}
+  };
+};
 
 const mapDispatch = (dispatch) => {
   return {
     submitForm: (userEmail, password, method, name) =>
       dispatch(authenticate(userEmail, password, method, name)),
-  }
-}
+  };
+};
 
 export default connect(mapSignup, mapDispatch)(Signup);

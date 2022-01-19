@@ -44,7 +44,7 @@ const Login = (props) => {
         />
         <InputForm
           name="password"
-          placeholder="password"
+          placeholder="Password"
           type="password"
           control={control}
         />
