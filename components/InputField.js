@@ -2,7 +2,7 @@ import React from "react";
 import { useController, useForm } from "react-hook-form";
 import { StyleSheet, TextInput, View } from "react-native";
 
-export const InputForm = ({ name, control }) => {
+export const InputForm = ({ name, control, placeholder }) => {
   const { field } = useController({
     control,
     defaultValue: "",
@@ -16,7 +16,7 @@ export const InputForm = ({ name, control }) => {
           value={field.value}
           onChangeText={field.onChange}
           style={styles.input}
-          placeholder={`Enter your ${field.name}`}
+          placeholder={`Enter your ${placeholder}`}
           secureTextEntry={true}
         />
       ) : (
@@ -24,7 +24,7 @@ export const InputForm = ({ name, control }) => {
           value={field.value}
           onChangeText={field.onChange}
           style={styles.input}
-          placeholder={`Enter your ${field.name}`}
+          placeholder={`Enter your ${placeholder}`}
         />
       )}
     </View>
@@ -50,5 +50,7 @@ const styles = StyleSheet.create({
     width: 250,
     padding: 10,
     backgroundColor: "white",
+    borderWidth: 0.5,
+    borderColor: "#87ceeb",
   },
 });
