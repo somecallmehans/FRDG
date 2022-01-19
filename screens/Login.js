@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import {
   StyleSheet,
   Text,
@@ -8,35 +8,29 @@ import {
   Button,
   Image,
   TouchableOpacity,
-} from "react-native"
-import { StatusBar } from "expo-status-bar"
-import { useController, useForm } from "react-hook-form"
-import { useNavigation } from "@react-navigation/native"
-import { MaterialIcons } from '@expo/vector-icons';
-import { connect } from "react-redux"
-import { authenticate } from "../store"
+} from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { useController, useForm } from "react-hook-form";
+import { useNavigation } from "@react-navigation/native";
+import { MaterialIcons } from "@expo/vector-icons";
+import { connect } from "react-redux";
+import { authenticate } from "../store";
 
-import {InputForm} from "../components/InputField";
-
+import { InputForm } from "../components/InputField";
 
 const Login = (props) => {
-  const navigation = useNavigation()
-  const { control, handleSubmit } = useForm()
+  const navigation = useNavigation();
+  const { control, handleSubmit } = useForm();
 
   const onSubmit = async (data) => {
-    const method = "login"
-    const name = null
-    const res = await props.submitForm(
-      data.email,
-      data.password,
-      method,
-      name
-    )
+    const method = "login";
+    const name = null;
+    const res = await props.submitForm(data.email, data.password, method, name);
 
     if (res === 405) {
-      Alert.alert("Wrong email password")
+      Alert.alert("Wrong email password");
     }
-  }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -61,15 +55,17 @@ const Login = (props) => {
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.button}
+          style={styles.signUpButton}
           onPress={() => navigation.navigate("Signup")}
         >
-          <Text style={styles.buttonText}>Sign Up {'>'}</Text>
+          <Text style={styles.signUpButtonText}>
+            Don't have an account? Tap here to sign up
+          </Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -90,34 +86,48 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "#288cd7",
+    borderWidth: 2,
+    borderColor: "#87ceeb",
     padding: 10,
+    margin: 20,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: "#87ceeb",
+    fontSize: 24,
+    textAlign: "center",
+  },
+  signUpButton: {
+    backgroundColor: "#288cd7",
+    padding: 10,
+    marginTop: 50,
     margin: 10,
     borderRadius: 10,
   },
-  buttonText: {
+  signUpButtonText: {
     color: "white",
-    fontSize: 20,
+    fontSize: 12,
     textAlign: "center",
   },
   title: {
     color: "#87ceeb",
-    fontSize: 32,
-    marginBottom: 20
-  }
-})
+    fontSize: 75,
+    marginBottom: 30,
+  },
+});
 
 const mapState = (state) => {
   return {
     name: "login",
     displayName: "Login",
-  }
-}
+  };
+};
 
 const mapDispatch = (dispatch) => {
   return {
     submitForm: (email, password, method) =>
       dispatch(authenticate(email, password, method)),
-  }
-}
+  };
+};
 
-export default connect(mapState, mapDispatch)(Login)
+export default connect(mapState, mapDispatch)(Login);
